@@ -1,7 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"github.com/lMikadal/POS_Backend_golang.git/routers"
+)
+
+func init() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
-	fmt.Printf("%v\n", "Hello, World!")
+
+	router := gin.Default()
+	api := router.Group("/api/v1")
+
+	routers.SetCollectionRoutes(api)
+
+	router.Run(":8080")
+
 }
