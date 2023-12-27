@@ -1,5 +1,7 @@
 package controllers
 
-// type DBController struct {
-// 	Database *gorm.DB
-// }
+import "gorm.io/gorm"
+
+type DBController struct {
+	Database *gorm.DB
+}
