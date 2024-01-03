@@ -28,9 +28,9 @@ func main() {
 	}
 
 	router := gin.Default()
-	api := router.Group("/api/v1")
+	api1 := router.Group("/api/v1")
 
-	routers.SetCollectionRoutes(api, db)
+	routers.SetCollectionRoutes(api1, db)
 
 	router.Run(":8080")
 

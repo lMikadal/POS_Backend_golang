@@ -8,6 +8,6 @@ import (
 
 func (db *DBController) GetTest(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "test for api",
+		"message": "this is api",
 	})
 }
