@@ -20,20 +20,15 @@ func init() {
 	}
 }
 
-func main() {
-
-	db, err := initDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	router := gin.Default()
-	api1 := router.Group("/api/v1")
-
-	routers.SetCollectionRoutes(api1, db)
-
-	router.Run(":8080")
-
+var migrate = []interface{}{
+	&models.User{},
+	&models.Role{},
+	&models.Goods{},
+	&models.GoodsPrice{},
+	&models.Tag{},
+	&models.Order{},
+	&models.Status{},
+	&models.Stock{},
 }
 
 func initDB() (*gorm.DB, error) {
@@ -45,7 +40,21 @@ func initDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(&models.Test{})
+	db.AutoMigrate(migrate...)
 
 	return db, nil
+}
+
+func main() {
+	db, err := initDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	router := gin.Default()
+	api1 := router.Group("/api/v1")
+
+	routers.SetCollectionRoutes(api1, db)
+
+	router.Run(":8080")
 }
