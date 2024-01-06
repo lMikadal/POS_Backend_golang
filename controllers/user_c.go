@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (db *DBController) GetTest(c *gin.Context) {
+func (db *DBController) GetUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "this is api",
+		"message": "user",
 	})
 }

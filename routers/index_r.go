@@ -9,5 +9,5 @@ import (
 func SetCollectionRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	ctrls := controllers.DBController{Database: db}
 
-	router.GET("test", ctrls.GetTest)
+	RouterUser(router, &ctrls)
 }

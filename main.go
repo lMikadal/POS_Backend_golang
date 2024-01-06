@@ -40,7 +40,7 @@ func initDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	db.AutoMigrate(migrate...)
+	// db.AutoMigrate(migrate...)
 
 	return db, nil
 }
