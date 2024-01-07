@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lMikadal/POS_Backend_golang.git/models"
+	"github.com/lMikadal/POS_Backend_golang.git/utils"
 )
 
 func (db *DBController) GetAllUsers(c *gin.Context) {
@@ -30,12 +31,8 @@ func (db *DBController) GetUser(c *gin.Context) {
 	var user models.User
 	var userResponse []models.UserResponse
 
-	chkerr := db.Database.Model(&models.User{}).Preload("Role").First(&user, c.Param("id"))
-	if chkerr.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "user not found",
-		})
-
+	ok := db.Database.Model(&models.User{}).Preload("Role").First(&user, c.Param("id")).Error
+	if utils.ErrQuery(ok, "user not found", c) {
 		return
 	}
 
