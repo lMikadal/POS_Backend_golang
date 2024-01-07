@@ -7,7 +7,7 @@ import (
 	"github.com/lMikadal/POS_Backend_golang.git/models"
 )
 
-func (db *DBController) GetUser(c *gin.Context) {
+func (db *DBController) GetAllUsers(c *gin.Context) {
 	var users []models.User
 	var userResponse []models.UserResponse
 

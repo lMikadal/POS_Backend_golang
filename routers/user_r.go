@@ -6,5 +6,5 @@ import (
 )
 
 func RouterUser(router *gin.RouterGroup, ctrls *controllers.DBController) {
-	router.GET("user", ctrls.GetUser)
+	router.GET("user", ctrls.GetAllUsers)
 }
