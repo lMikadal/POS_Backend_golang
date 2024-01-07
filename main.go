@@ -1,14 +1,17 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/lMikadal/POS_Backend_golang.git/models"
 	"github.com/lMikadal/POS_Backend_golang.git/routers"
+	"github.com/lMikadal/POS_Backend_golang.git/seeds"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -34,13 +37,22 @@ var migrate = []interface{}{
 func initDB() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v", os.Getenv("DB_HOST"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"))
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NowFunc: func() time.Time {
+			t, _ := time.LoadLocation("Asia/Jakarta")
+			return time.Now().In(t)
+		},
+	})
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
 
-	// db.AutoMigrate(migrate...)
+	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&models.User{}) {
+		if err := db.First(&models.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			seeds.SeedUser(db)
+		}
+	}
 
 	return db, nil
 }
