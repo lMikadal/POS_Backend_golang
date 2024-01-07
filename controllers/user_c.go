@@ -8,17 +8,21 @@ import (
 	"github.com/lMikadal/POS_Backend_golang.git/utils"
 )
 
-func (db *DBController) GetAllUsers(c *gin.Context) {
+func (db *DBController) UsersGetAll(c *gin.Context) {
 	var users []models.User
 	var userResponse []models.UserResponse
 
-	db.Database.Model(&models.User{}).Preload("Role").Find(&users)
+	db.Database.Preload("Role").Find(&users)
 
 	for _, e := range users {
 		userResponse = append(userResponse, models.UserResponse{
+			UserID:    e.ID,
 			UserName:  e.UserName,
 			UserEmail: e.UserEmail,
-			RoleName:  e.Role[0].RoleName,
+			Role: models.RoleResponse{
+				RoleID:   e.Role.ID,
+				RoleName: e.Role.RoleName,
+			},
 		})
 	}
 
@@ -27,18 +31,22 @@ func (db *DBController) GetAllUsers(c *gin.Context) {
 	})
 }
 
-func (db *DBController) GetUser(c *gin.Context) {
+func (db *DBController) UserGetOne(c *gin.Context) {
 	var user models.User
 
-	ok := db.Database.Model(&models.User{}).Preload("Role").First(&user, c.Param("id")).Error
+	ok := db.Database.Preload("Role").First(&user, c.Param("id")).Error
 	if utils.ErrQuery(ok, "user not found", c) {
 		return
 	}
 
 	userResponse := models.UserResponse{
+		UserID:    user.ID,
 		UserName:  user.UserName,
 		UserEmail: user.UserEmail,
-		RoleName:  user.Role[0].RoleName,
+		Role: models.RoleResponse{
+			RoleID:   user.Role.ID,
+			RoleName: user.Role.RoleName,
+		},
 	}
 
 	c.JSON(http.StatusOK, gin.H{

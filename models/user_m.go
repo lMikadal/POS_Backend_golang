@@ -7,16 +7,24 @@ type User struct {
 	UserName     string
 	UserEmail    string
 	UserPassword string
-	Role         []Role `gorm:"many2many:user_roles;"`
+	RoleID       uint
+	Role         Role
 }
 
 type Role struct {
 	gorm.Model
 	RoleName string
+	Users    []User
 }
 
 type UserResponse struct {
-	UserName  string `json:"name"`
-	UserEmail string `json:"email"`
-	RoleName  string `json:"role"`
+	UserID    uint         `json:"id"`
+	UserName  string       `json:"name"`
+	UserEmail string       `json:"email"`
+	Role      RoleResponse `json:"role"`
+}
+
+type RoleResponse struct {
+	RoleID   uint   `json:"id"`
+	RoleName string `json:"role"`
 }

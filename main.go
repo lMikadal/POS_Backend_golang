@@ -24,14 +24,14 @@ func init() {
 }
 
 var migrate = []interface{}{
-	&models.User{},
 	&models.Role{},
-	&models.Goods{},
-	&models.GoodsPrice{},
-	&models.Tag{},
-	&models.Order{},
-	&models.Status{},
-	&models.Stock{},
+	&models.User{},
+	// &models.Goods{},
+	// &models.GoodsPrice{},
+	// &models.Tag{},
+	// &models.Order{},
+	// &models.Status{},
+	// &models.Stock{},
 }
 
 func initDB() (*gorm.DB, error) {
@@ -48,7 +48,10 @@ func initDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&models.User{}) {
+	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&models.Role{}) {
+		if err := db.First(&models.Role{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			seeds.SeedRole(db)
+		}
 		if err := db.First(&models.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 			seeds.SeedUser(db)
 		}

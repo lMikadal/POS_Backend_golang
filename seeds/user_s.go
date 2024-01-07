@@ -7,8 +7,8 @@ import (
 
 func SeedUser(db *gorm.DB) {
 	users := []models.User{
-		{UserName: "admin", UserEmail: "admin@gmail.com", UserPassword: "admin", Role: []models.Role{{RoleName: "admin"}}},
-		{UserName: "employee", UserEmail: "employee@gmail.com", UserPassword: "employee", Role: []models.Role{{RoleName: "employee"}}},
+		{UserName: "admin", UserEmail: "admin@gmail.com", UserPassword: "admin", RoleID: 1},
+		{UserName: "employee", UserEmail: "employee@gmail.com", UserPassword: "employee", RoleID: 2},
 	}
 
 	db.Save(&users)
