@@ -16,7 +16,7 @@ type Role struct {
 }
 
 type UserResponse struct {
-	UserName  string `json:"user_name"`
-	UserEmail string `json:"user_email"`
-	RoleName  string `json:"role_name"`
+	UserName  string `json:"name"`
+	UserEmail string `json:"email"`
+	RoleName  string `json:"role"`
 }
