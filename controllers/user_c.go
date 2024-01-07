@@ -25,3 +25,27 @@ func (db *DBController) GetAllUsers(c *gin.Context) {
 		"users": userResponse,
 	})
 }
+
+func (db *DBController) GetUser(c *gin.Context) {
+	var user models.User
+	var userResponse []models.UserResponse
+
+	chkerr := db.Database.Model(&models.User{}).Preload("Role").First(&user, c.Param("id"))
+	if chkerr.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "user not found",
+		})
+
+		return
+	}
+
+	userResponse = append(userResponse, models.UserResponse{
+		UserName:  user.UserName,
+		UserEmail: user.UserEmail,
+		RoleName:  user.Role[0].RoleName,
+	})
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": userResponse,
+	})
+}
