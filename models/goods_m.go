@@ -21,5 +21,5 @@ type GoodsPrice struct {
 
 type Tag struct {
 	gorm.Model
-	TagName string
+	TagName string `json:"name"`
 }

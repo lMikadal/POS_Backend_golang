@@ -35,7 +35,7 @@ func (db *DBController) UserGetOne(c *gin.Context) {
 	var user models.User
 
 	ok := db.Database.Preload("Role").First(&user, c.Param("id")).Error
-	if utils.ErrQuery(ok, "user not found", c) {
+	if utils.ErrBadRequest(ok, "user not found", c) {
 		return
 	}
 

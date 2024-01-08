@@ -26,9 +26,9 @@ func init() {
 var migrate = []interface{}{
 	&models.Role{},
 	&models.User{},
-	// &models.Goods{},
+	&models.Goods{},
+	&models.Tag{},
 	// &models.GoodsPrice{},
-	// &models.Tag{},
 	// &models.Order{},
 	// &models.Status{},
 	// &models.Stock{},

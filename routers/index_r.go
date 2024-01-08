@@ -10,4 +10,5 @@ func SetCollectionRoutes(router *gin.RouterGroup, db *gorm.DB) {
 	ctrls := controllers.DBController{Database: db}
 
 	RouterUser(router, &ctrls)
+	RouterTag(router, &ctrls)
 }
