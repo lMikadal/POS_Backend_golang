@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lMikadal/POS_Backend_golang.git/models"
@@ -60,6 +61,33 @@ func (db *DBController) TagCreate(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
+		"data": tagResponse,
+	})
+}
+
+func (db *DBController) TagUpdate(c *gin.Context) {
+	var jsonTag models.Tag
+	param_id, err := strconv.Atoi(c.Param("id"))
+	if utils.ErrBadRequest(err, "invalid id", c) {
+		return
+	}
+
+	ok := c.ShouldBindJSON(&jsonTag)
+	if utils.ErrBadRequest(ok, "invalid json", c) {
+		return
+	}
+
+	ok = db.Database.Model(&models.Tag{}).Where("id = ?", param_id).Updates(&jsonTag).Error
+	if utils.ErrBadRequest(ok, "tag not found", c) {
+		return
+	}
+
+	tagResponse := models.TagResponse{
+		TagID:   uint(param_id),
+		TagName: jsonTag.TagName,
+	}
+
+	c.JSON(http.StatusOK, gin.H{
 		"data": tagResponse,
 	})
 }

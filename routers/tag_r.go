@@ -9,4 +9,5 @@ func RouterTag(router *gin.RouterGroup, ctrls *controllers.DBController) {
 	router.GET("tag", ctrls.TagGetAll)
 	router.GET("tag/:id", ctrls.TagGetByID)
 	router.POST("tag", ctrls.TagCreate)
+	router.PUT("tag/:id", ctrls.TagUpdate)
 }
