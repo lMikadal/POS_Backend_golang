@@ -10,11 +10,19 @@ import (
 
 func (db *DBController) TagGetAll(c *gin.Context) {
 	var tags []models.Tag
+	var tagResponse []models.TagResponse
 
 	db.Database.Find(&tags)
 
+	for _, e := range tags {
+		tagResponse = append(tagResponse, models.TagResponse{
+			TagID:   e.ID,
+			TagName: e.TagName,
+		})
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"data": tags,
+		"data": tagResponse,
 	})
 }
 
@@ -26,8 +34,13 @@ func (db *DBController) TagGetByID(c *gin.Context) {
 		return
 	}
 
+	tagResponse := models.TagResponse{
+		TagID:   tag.ID,
+		TagName: tag.TagName,
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"data": tag,
+		"data": tagResponse,
 	})
 }
 
@@ -41,12 +54,12 @@ func (db *DBController) TagCreate(c *gin.Context) {
 
 	db.Database.Save(&jsonTag)
 
-	tag := models.TagResponse{
+	tagResponse := models.TagResponse{
 		TagID:   jsonTag.ID,
 		TagName: jsonTag.TagName,
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
-		"data": tag,
+		"data": tagResponse,
 	})
 }
