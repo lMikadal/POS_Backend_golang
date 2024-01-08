@@ -41,7 +41,12 @@ func (db *DBController) TagCreate(c *gin.Context) {
 
 	db.Database.Save(&jsonTag)
 
+	tag := models.TagResponse{
+		TagID:   jsonTag.ID,
+		TagName: jsonTag.TagName,
+	}
+
 	c.JSON(http.StatusCreated, gin.H{
-		"data": jsonTag,
+		"data": tag,
 	})
 }

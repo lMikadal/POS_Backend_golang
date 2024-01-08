@@ -23,3 +23,8 @@ type Tag struct {
 	gorm.Model
 	TagName string `json:"name"`
 }
+
+type TagResponse struct {
+	TagID   uint   `json:"id"`
+	TagName string `json:"name"`
+}
