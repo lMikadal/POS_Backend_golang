@@ -1,15 +1,15 @@
 package seeds
 
 import (
-	"github.com/lMikadal/POS_Backend_golang.git/models"
+	repository "github.com/lMikadal/POS_Backend_golang.git/repositories"
 	"gorm.io/gorm"
 )
 
 func SeedRole(db *gorm.DB) {
-	roles := []models.Role{
+	roles := []repository.Role{
 		{RoleName: "admin"},
 		{RoleName: "employee"},
 	}
 
-	db.Create(&roles)
+	db.Save(&roles)
 }

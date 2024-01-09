@@ -9,7 +9,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/lMikadal/POS_Backend_golang.git/models"
+	repository "github.com/lMikadal/POS_Backend_golang.git/repositories"
 	"github.com/lMikadal/POS_Backend_golang.git/routers"
 	"github.com/lMikadal/POS_Backend_golang.git/seeds"
 	"gorm.io/driver/postgres"
@@ -24,10 +24,10 @@ func init() {
 }
 
 var migrate = []interface{}{
-	&models.Role{},
-	&models.User{},
-	&models.Goods{},
-	&models.Tag{},
+	&repository.Role{},
+	&repository.User{},
+	// &models.Goods{},
+	// &models.Tag{},
 	// &models.GoodsPrice{},
 	// &models.Order{},
 	// &models.Status{},
@@ -48,11 +48,11 @@ func initDB() (*gorm.DB, error) {
 		return nil, err
 	}
 
-	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&models.Role{}) {
-		if err := db.First(&models.Role{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+	if err = db.AutoMigrate(migrate...); err == nil && (db.Migrator().HasTable(&repository.User{}) || db.Migrator().HasTable(&repository.Role{})) {
+		if err := db.First(&repository.Role{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 			seeds.SeedRole(db)
 		}
-		if err := db.First(&models.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+		if err := db.First(&repository.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 			seeds.SeedUser(db)
 		}
 	}
@@ -69,7 +69,7 @@ func main() {
 	router := gin.Default()
 	api1 := router.Group("/api/v1")
 
-	routers.SetCollectionRoutes(api1, db)
+	routers.RouterUser(db, api1)
 
 	router.Run(":8080")
 }
