@@ -70,6 +70,7 @@ func main() {
 	api1 := router.Group("/api/v1")
 
 	routers.RouterUser(db, api1)
+	routers.RouterRole(db, api1)
 
 	router.Run(":8080")
 }
