@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"os"
 
 	"github.com/joho/godotenv"
+	handler "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/handler/http"
 	repository "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/repository/postgres"
 	"github.com/lMikadal/POS_Backend_golang.git/internal/core/service"
 )
@@ -38,6 +38,9 @@ func main() {
 	appName := os.Getenv("APP_NAME")
 	env := os.Getenv("APP_ENV")
 	dbConn := os.Getenv("DB_CONNECTION")
+	httpUrl := os.Getenv("HTTP_URL")
+	httpPort := os.Getenv("HTTP_PORT")
+	listenAddr := httpUrl + ":" + httpPort
 
 	slog.Info("Starting the application", "app", appName, "env", env)
 
@@ -59,23 +62,22 @@ func main() {
 	// User
 	userRepo := repository.NewUserRepository(db)
 	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
 
-	fmt.Println(userService.GetUserById(1))
+	// Init router
+	router, err := handler.NewRouter(
+		*userHandler,
+	)
+	if err != nil {
+		slog.Error("Error initializing router", "error", err)
+		os.Exit(1)
+	}
 
-	// if err = db.AutoMigrate(migrate...); err == nil && (db.Migrator().HasTable(&repository.User{}) || db.Migrator().HasTable(&repository.Role{})) {
-	// 	if err := db.First(&repository.Role{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
-	// 		seeds.SeedRole(db)
-	// 	}
-	// 	if err := db.First(&repository.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
-	// 		seeds.SeedUser(db)
-	// 	}
-	// }
-
-	// router := gin.Default()
-	// api1 := router.Group("/api/v1")
-
-	// routers.RouterUser(db, api1)
-	// routers.RouterRole(db, api1)
-
-	// router.Run(":8080")
+	// Start server
+	slog.Info("Starting the HTTP server", "listen_address", listenAddr)
+	err = router.Serve(listenAddr)
+	if err != nil {
+		slog.Error("Error starting the HTTP server", "error", err)
+		os.Exit(1)
+	}
 }
