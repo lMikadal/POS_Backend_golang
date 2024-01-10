@@ -5,19 +5,19 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lMikadal/POS_Backend_golang.git/services"
+	"github.com/lMikadal/POS_Backend_golang.git/internal/core/port"
 )
 
-type userHandler struct {
-	userSrv service.UserService
+type RoleHandler struct {
+	srv port.RoleService
 }
 
-func NewUserHandler(userSrv service.UserService) userHandler {
-	return userHandler{userSrv: userSrv}
+func NewRoleHandler(srv port.RoleService) *RoleHandler {
+	return &RoleHandler{srv}
 }
 
-func (h userHandler) GetUsers(c *gin.Context) {
-	users, err := h.userSrv.GetUsers()
+func (h RoleHandler) GetRoles(c *gin.Context) {
+	roles, err := h.srv.GetRoles()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,
@@ -25,11 +25,11 @@ func (h userHandler) GetUsers(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"data": users,
+		"data": roles,
 	})
 }
 
-func (h userHandler) GetUserById(c *gin.Context) {
+func (h RoleHandler) GetRoleById(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -37,7 +37,7 @@ func (h userHandler) GetUserById(c *gin.Context) {
 		})
 		return
 	}
-	user, err := h.userSrv.GetUserById(id)
+	role, err := h.srv.GetRoleById(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,
@@ -45,6 +45,6 @@ func (h userHandler) GetUserById(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"data": user,
+		"data": role,
 	})
 }

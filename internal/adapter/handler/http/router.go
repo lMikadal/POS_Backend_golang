@@ -15,6 +15,7 @@ type Router struct {
 
 func NewRouter(
 	userHandler UserHandler,
+	roleHander RoleHandler,
 ) (*Router, error) {
 	// Disable debug mode and write logs to file in production
 	env := os.Getenv("APP_ENV")
@@ -33,6 +34,11 @@ func NewRouter(
 		{
 			user.GET("/", userHandler.GetUsers)
 			user.GET("/:id", userHandler.GetUserById)
+		}
+		role := v1.Group("/roles")
+		{
+			role.GET("/", roleHander.GetRoles)
+			role.GET("/:id", roleHander.GetRoleById)
 		}
 	}
 

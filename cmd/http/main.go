@@ -64,9 +64,15 @@ func main() {
 	userService := service.NewUserService(userRepo)
 	userHandler := handler.NewUserHandler(userService)
 
+	// Role
+	roleReop := repository.NewRoleRepository(db)
+	roleService := service.NewRoleService(roleReop)
+	roleHander := handler.NewRoleHandler(roleService)
+
 	// Init router
 	router, err := handler.NewRouter(
 		*userHandler,
+		*roleHander,
 	)
 	if err != nil {
 		slog.Error("Error initializing router", "error", err)

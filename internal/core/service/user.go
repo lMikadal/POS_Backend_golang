@@ -28,10 +28,10 @@ func (s userService) GetUsers() ([]domain.UserResponse, error) {
 			UserID:    user.ID,
 			UserName:  user.UserName,
 			UserEmail: user.UserEmail,
-			// Role: RoleResponse{
-			// 	RoleID:   user.RoleID,
-			// 	RoleName: user.Role.RoleName,
-			// },
+			Role: domain.RoleResponse{
+				RoleID:   user.RoleID,
+				RoleName: user.Role.RoleName,
+			},
 		})
 	}
 
@@ -48,11 +48,10 @@ func (s userService) GetUserById(id int) (*domain.UserResponse, error) {
 		UserID:    user.ID,
 		UserName:  user.UserName,
 		UserEmail: user.UserEmail,
-		// Role: RoleResponse{
-		// 	RoleID:   user.RoleID,
-		// 	RoleName: user.Role.RoleName,
-		// },
-
+		Role: domain.RoleResponse{
+			RoleID:   user.RoleID,
+			RoleName: user.Role.RoleName,
+		},
 	}
 	return &userResponse, nil
 }
