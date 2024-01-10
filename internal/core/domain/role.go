@@ -13,3 +13,8 @@ type RoleResponse struct {
 	RoleName string                    `json:"name"`
 	Users    []UserResponseWithOutRole `json:"users"`
 }
+
+type RoleResponseWithOutUser struct {
+	RoleID   uint   `json:"id"`
+	RoleName string `json:"name"`
+}

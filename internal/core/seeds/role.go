@@ -1,12 +1,12 @@
 package seeds
 
 import (
-	repository "github.com/lMikadal/POS_Backend_golang.git/repositories"
+	"github.com/lMikadal/POS_Backend_golang.git/internal/core/domain"
 	"gorm.io/gorm"
 )
 
 func SeedRole(db *gorm.DB) {
-	roles := []repository.Role{
+	roles := []domain.Role{
 		{RoleName: "admin"},
 		{RoleName: "employee"},
 	}

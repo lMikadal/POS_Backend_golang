@@ -12,14 +12,18 @@ type User struct {
 }
 
 type UserResponse struct {
-	UserID    uint         `json:"id"`
-	UserName  string       `json:"name"`
-	UserEmail string       `json:"email"`
-	Role      RoleResponse `json:"role"`
+	UserID    uint                    `json:"id"`
+	UserName  string                  `json:"name"`
+	UserEmail string                  `json:"email"`
+	Role      RoleResponseWithOutUser `json:"role"`
 }
 
 type UserResponseWithOutRole struct {
 	UserID    uint   `json:"id"`
 	UserName  string `json:"name"`
 	UserEmail string `json:"email"`
+}
+
+func (UserResponseWithOutRole) TableName() string {
+	return "users"
 }

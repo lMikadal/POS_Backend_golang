@@ -13,7 +13,7 @@ func NewRoleRepository(db *DB) *roleRepository {
 func (r roleRepository) GetAll() ([]domain.Role, error) {
 	roles := []domain.Role{}
 
-	err := r.db.Preload("User").Find(&roles).Error
+	err := r.db.Preload("Users").Find(&roles).Error
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +24,7 @@ func (r roleRepository) GetAll() ([]domain.Role, error) {
 func (r roleRepository) GetById(id int) (*domain.Role, error) {
 	role := domain.Role{}
 
-	err := r.db.Preload("User").First(&role, id).Error
+	err := r.db.Preload("Users").First(&role, id).Error
 	if err != nil {
 		return nil, err
 	}

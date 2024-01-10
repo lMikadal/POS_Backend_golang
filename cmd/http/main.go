@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -9,7 +10,9 @@ import (
 	handler "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/handler/http"
 	repository "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/repository/postgres"
 	"github.com/lMikadal/POS_Backend_golang.git/internal/core/domain"
+	"github.com/lMikadal/POS_Backend_golang.git/internal/core/seeds"
 	"github.com/lMikadal/POS_Backend_golang.git/internal/core/service"
+	"gorm.io/gorm"
 )
 
 func init() {
@@ -59,7 +62,14 @@ func main() {
 		&domain.User{},
 	}
 
-	db.AutoMigrate(migrate...)
+	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&domain.Role{}) {
+		if err := db.First(&domain.Role{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			seeds.SeedRole(db.DB)
+		}
+		if err := db.First(&domain.User{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
+			seeds.SeedUser(db.DB)
+		}
+	}
 
 	// User
 	userRepo := repository.NewUserRepository(db)
