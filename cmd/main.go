@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"time"
 
@@ -17,10 +18,22 @@ import (
 )
 
 func init() {
+	// setting log
+	var logHandler *slog.JSONHandler
+
+	logHandler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelDebug,
+	})
+
+	// init env
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(err)
+		slog.Error("Error loading .env file", "error", err)
+		os.Exit(1)
 	}
+
+	logger := slog.New(logHandler)
+	slog.SetDefault(logger)
 }
 
 var migrate = []interface{}{
@@ -61,6 +74,11 @@ func initDB() (*gorm.DB, error) {
 }
 
 func main() {
+	appName := os.Getenv("APP_NAME")
+	env := os.Getenv("APP_ENV")
+
+	slog.Info("Starting the application", "app", appName, "env", env)
+
 	db, err := initDB()
 	if err != nil {
 		log.Fatal(err)
