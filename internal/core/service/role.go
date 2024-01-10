@@ -27,6 +27,7 @@ func (s roleService) GetRoles() ([]domain.RoleResponse, error) {
 		roleResponses = append(roleResponses, domain.RoleResponse{
 			RoleID:   role.ID,
 			RoleName: role.RoleName,
+			Users:    []domain.UserResponseWithOutRole{},
 		})
 	}
 

@@ -9,10 +9,7 @@ type Role struct {
 }
 
 type RoleResponse struct {
-	RoleID   uint   `json:"id"`
-	RoleName string `json:"name"`
-}
-
-func (r RoleResponse) TableName() string {
-	return "roles"
+	RoleID   uint                      `json:"id"`
+	RoleName string                    `json:"name"`
+	Users    []UserResponseWithOutRole `json:"users"`
 }

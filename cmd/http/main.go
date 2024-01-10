@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 
 	"github.com/joho/godotenv"
 	handler "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/handler/http"
 	repository "github.com/lMikadal/POS_Backend_golang.git/internal/adapter/repository/postgres"
+	"github.com/lMikadal/POS_Backend_golang.git/internal/core/domain"
 	"github.com/lMikadal/POS_Backend_golang.git/internal/core/service"
 )
 
@@ -53,8 +55,8 @@ func main() {
 	slog.Info("Successfully connected to the database", "db", dbConn)
 
 	var migrate = []interface{}{
-		// &repository.Role{},
-		// &repository.User{},
+		&domain.Role{},
+		&domain.User{},
 	}
 
 	db.AutoMigrate(migrate...)
@@ -66,6 +68,7 @@ func main() {
 
 	// Role
 	roleReop := repository.NewRoleRepository(db)
+	fmt.Println(roleReop.GetAll())
 	roleService := service.NewRoleService(roleReop)
 	roleHander := handler.NewRoleHandler(roleService)
 

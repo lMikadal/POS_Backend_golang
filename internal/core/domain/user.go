@@ -17,3 +17,9 @@ type UserResponse struct {
 	UserEmail string       `json:"email"`
 	Role      RoleResponse `json:"role"`
 }
+
+type UserResponseWithOutRole struct {
+	UserID    uint   `json:"id"`
+	UserName  string `json:"name"`
+	UserEmail string `json:"email"`
+}
