@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"time"
@@ -15,7 +14,7 @@ type DB struct {
 }
 
 // NewDB creates a new PostgreSQL database instance
-func NewDB(ctx context.Context) (*DB, error) {
+func NewDB() (*DB, error) {
 	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable",
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
