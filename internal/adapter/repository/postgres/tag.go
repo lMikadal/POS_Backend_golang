@@ -11,21 +11,59 @@ func NewTagRepository(db *DB) *tagRepository {
 }
 
 func (r tagRepository) GetAll() ([]domain.Tag, error) {
-	return nil, nil
+	tags := []domain.Tag{}
+
+	err := r.db.Preload("Goodses").Find(&tags).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return tags, nil
 }
 
 func (r tagRepository) GetById(id int) (*domain.Tag, error) {
-	return nil, nil
+	tag := domain.Tag{}
+
+	err := r.db.Preload("Goodses").First(&tag, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &tag, nil
 }
 
-func (r tagRepository) Create(*domain.Tag) (*domain.Tag, error) {
-	return nil, nil
+func (r tagRepository) Create(tag *domain.Tag) (*domain.Tag, error) {
+	err := r.db.Create(tag).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return tag, nil
 }
 
-func (r tagRepository) Update(*domain.Tag) (*domain.Tag, error) {
-	return nil, nil
+func (r tagRepository) Update(tag *domain.Tag, id int) (*domain.Tag, error) {
+	newTag := domain.Tag{}
+
+	err := r.db.First(&newTag, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	newTag.TagName = tag.TagName
+
+	err = r.db.Save(&newTag).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &newTag, nil
 }
 
-func (r tagRepository) Delete(int) error {
+func (r tagRepository) Delete(id int) error {
+	err := r.db.Delete(&domain.Tag{}, id).Error
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

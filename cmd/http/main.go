@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"os"
 
@@ -85,8 +84,11 @@ func main() {
 
 	// Goods
 	goodsRepo := repository.NewGoodsRepository(db)
-	fmt.Println(goodsRepo.GetAll())
-	// goodsService := service.NewGoodsService(goodsRepo)
+	_ = goodsRepo
+
+	// Tag
+	tagRepo := repository.NewTagRepository(db)
+	_ = tagRepo
 
 	// Init router
 	router, err := handler.NewRouter(
