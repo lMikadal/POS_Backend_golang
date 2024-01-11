@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"os"
 
@@ -60,6 +59,8 @@ func main() {
 	var migrate = []interface{}{
 		&domain.Role{},
 		&domain.User{},
+		&domain.Tag{},
+		&domain.Goods{},
 	}
 
 	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&domain.Role{}) {
@@ -78,7 +79,6 @@ func main() {
 
 	// Role
 	roleReop := repository.NewRoleRepository(db)
-	fmt.Println(roleReop.GetAll())
 	roleService := service.NewRoleService(roleReop)
 	roleHander := handler.NewRoleHandler(roleService)
 
