@@ -10,9 +10,7 @@ type roleService struct {
 }
 
 func NewRoleService(repo port.RoleRepository) *roleService {
-	return &roleService{
-		repo,
-	}
+	return &roleService{repo}
 }
 
 func (s roleService) GetRoles() ([]domain.RoleResponse, error) {

@@ -11,6 +11,15 @@ type Goods struct {
 	Tags        []*Tag `gorm:"many2many:goods_tags;"`
 }
 
+type GoodsRequest struct {
+	GoodsId     uint    `json:"id"`
+	GoodsName   string  `json:"name"`
+	GoodsCode   string  `json:"code"`
+	GoodsAmount int     `json:"amount"`
+	GoodsCost   float32 `json:"cost"`
+	Tags        []uint  `json:"tags"`
+}
+
 type GoodsResponse struct {
 	GoodsID     uint                      `json:"id"`
 	GoodsName   string                    `json:"name"`
