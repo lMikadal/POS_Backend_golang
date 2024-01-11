@@ -8,5 +8,5 @@ type Goods struct {
 	GoodsCode   string
 	GoodsAmount int
 	GoodsCost   float32
-	Tags        []Tag `gorm:"many2many:goods_tags;"`
+	Tags        []*Tag `gorm:"many2many:goods_tags;"`
 }

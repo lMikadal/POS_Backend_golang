@@ -78,9 +78,12 @@ func main() {
 	userHandler := handler.NewUserHandler(userService)
 
 	// Role
-	roleReop := repository.NewRoleRepository(db)
-	roleService := service.NewRoleService(roleReop)
+	roleRepo := repository.NewRoleRepository(db)
+	roleService := service.NewRoleService(roleRepo)
 	roleHander := handler.NewRoleHandler(roleService)
+
+	// Goods
+	goodsRepo := repository.NewGoodsRepository(db)
 
 	// Init router
 	router, err := handler.NewRouter(
