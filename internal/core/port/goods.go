@@ -9,3 +9,11 @@ type GoodsRepository interface {
 	Update(*domain.Goods) (*domain.Goods, error)
 	Delete(int) error
 }
+
+type GoodsService interface {
+	GetGoodses() ([]domain.GoodsResponse, error)
+	GetGoodsById(int) (*domain.GoodsResponse, error)
+	CreateGoods(*domain.GoodsResponse) (*domain.GoodsResponse, error)
+	UpdateGoods(*domain.GoodsResponse) (*domain.GoodsResponse, error)
+	DeleteGoods(int) error
+}
