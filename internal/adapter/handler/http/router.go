@@ -14,8 +14,8 @@ type Router struct {
 }
 
 func NewRouter(
-	userHandler UserHandler,
 	roleHander RoleHandler,
+	userHandler UserHandler,
 	tagHandler TagHandler,
 ) (*Router, error) {
 	// Disable debug mode and write logs to file in production

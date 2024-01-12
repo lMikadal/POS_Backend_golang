@@ -72,29 +72,29 @@ func main() {
 		}
 	}
 
-	// User
-	userRepo := repository.NewUserRepository(db)
-	userService := service.NewUserService(userRepo)
-	userHandler := handler.NewUserHandler(userService)
-
 	// Role
 	roleRepo := repository.NewRoleRepository(db)
 	roleService := service.NewRoleService(roleRepo)
 	roleHander := handler.NewRoleHandler(roleService)
 
-	// Goods
-	goodsRepo := repository.NewGoodsRepository(db)
-	_ = goodsRepo
+	// User
+	userRepo := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepo)
+	userHandler := handler.NewUserHandler(userService)
 
 	// Tag
 	tagRepo := repository.NewTagRepository(db)
 	tagService := service.NewTagService(tagRepo)
 	tagHandler := handler.NewTagHandler(tagService)
 
+	// Goods
+	goodsRepo := repository.NewGoodsRepository(db)
+	_ = goodsRepo
+
 	// Init router
 	router, err := handler.NewRouter(
-		*userHandler,
 		*roleHander,
+		*userHandler,
 		*tagHandler,
 	)
 	if err != nil {

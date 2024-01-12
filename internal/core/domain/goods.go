@@ -12,12 +12,11 @@ type Goods struct {
 }
 
 type GoodsRequest struct {
-	GoodsId     uint    `json:"id"`
 	GoodsName   string  `json:"name"`
 	GoodsCode   string  `json:"code"`
 	GoodsAmount int     `json:"amount"`
 	GoodsCost   float32 `json:"cost"`
-	Tags        []uint  `json:"tags"`
+	Tags        []int   `json:"tags"`
 }
 
 type GoodsResponse struct {
