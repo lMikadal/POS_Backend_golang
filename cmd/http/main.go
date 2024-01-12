@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"os"
 
@@ -90,15 +89,13 @@ func main() {
 	// Tag
 	tagRepo := repository.NewTagRepository(db)
 	tagService := service.NewTagService(tagRepo)
-	// _ = tagService
-	fmt.Println(tagService.UpdateTag(&domain.TagRequest{
-		TagName: "test60000",
-	}, 4))
+	tagHandler := handler.NewTagHandler(tagService)
 
 	// Init router
 	router, err := handler.NewRouter(
 		*userHandler,
 		*roleHander,
+		*tagHandler,
 	)
 	if err != nil {
 		slog.Error("Error initializing router", "error", err)

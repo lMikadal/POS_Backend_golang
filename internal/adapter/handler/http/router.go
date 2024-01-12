@@ -16,6 +16,7 @@ type Router struct {
 func NewRouter(
 	userHandler UserHandler,
 	roleHander RoleHandler,
+	tagHandler TagHandler,
 ) (*Router, error) {
 	// Disable debug mode and write logs to file in production
 	env := os.Getenv("APP_ENV")
@@ -39,6 +40,14 @@ func NewRouter(
 		{
 			role.GET("/", roleHander.GetRoles)
 			role.GET("/:id", roleHander.GetRoleById)
+		}
+		tag := v1.Group("/tags")
+		{
+			tag.GET("/", tagHandler.GetTags)
+			tag.GET("/:id", tagHandler.GetTagById)
+			tag.POST("/", tagHandler.CreateTag)
+			tag.PUT("/:id", tagHandler.UpdateTag)
+			tag.DELETE("/:id", tagHandler.DeleteTag)
 		}
 	}
 

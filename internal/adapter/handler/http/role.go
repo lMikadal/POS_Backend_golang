@@ -24,6 +24,7 @@ func (h RoleHandler) GetRoles(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"data": roles,
 	})
@@ -37,6 +38,7 @@ func (h RoleHandler) GetRoleById(c *gin.Context) {
 		})
 		return
 	}
+
 	role, err := h.srv.GetRoleById(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -44,6 +46,7 @@ func (h RoleHandler) GetRoleById(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"data": role,
 	})

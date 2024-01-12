@@ -10,7 +10,6 @@ type Tag struct {
 
 type TagRequest struct {
 	TagName string `json:"name"`
-	Goods   []int  `json:"goods"`
 }
 
 type TagResponse struct {
