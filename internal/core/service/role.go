@@ -23,12 +23,11 @@ func (s roleService) GetRoles() ([]domain.RoleResponse, error) {
 	for _, role := range roles {
 		users := []domain.UserResponseWithOutRole{}
 		for _, user := range role.Users {
-			user := domain.UserResponseWithOutRole{
+			users = append(users, domain.UserResponseWithOutRole{
 				UserID:    user.ID,
 				UserName:  user.UserName,
 				UserEmail: user.UserEmail,
-			}
-			users = append(users, user)
+			})
 		}
 		roleResponses = append(roleResponses, domain.RoleResponse{
 			RoleID:   role.ID,

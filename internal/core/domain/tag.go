@@ -8,10 +8,15 @@ type Tag struct {
 	Goodses []*Goods `gorm:"many2many:goods_tags;"`
 }
 
+type TagRequest struct {
+	TagName string `json:"name"`
+	Goods   []int  `json:"goods"`
+}
+
 type TagResponse struct {
 	TagID   uint                      `json:"id"`
 	TagName string                    `json:"name"`
-	Goodses []GoodsResponseWithOutTag `json:"goodses"`
+	Goodses []GoodsResponseWithOutTag `json:"goods"`
 }
 
 type TagResponseWithOutGoods struct {

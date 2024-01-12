@@ -9,3 +9,11 @@ type TagRepository interface {
 	Update(*domain.Tag, int) (*domain.Tag, error)
 	Delete(int) error
 }
+
+type TagService interface {
+	GetTags() ([]domain.TagResponse, error)
+	GetTagById(int) (*domain.TagResponse, error)
+	CreateTag(*domain.TagRequest) (*domain.TagResponse, error)
+	UpdateTag(*domain.TagRequest, int) (*domain.TagResponse, error)
+	DeleteTag(int) error
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"os"
 
@@ -88,7 +89,11 @@ func main() {
 
 	// Tag
 	tagRepo := repository.NewTagRepository(db)
-	_ = tagRepo
+	tagService := service.NewTagService(tagRepo)
+	// _ = tagService
+	fmt.Println(tagService.UpdateTag(&domain.TagRequest{
+		TagName: "test60000",
+	}, 4))
 
 	// Init router
 	router, err := handler.NewRouter(

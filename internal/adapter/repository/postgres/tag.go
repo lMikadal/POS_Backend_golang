@@ -33,7 +33,7 @@ func (r tagRepository) GetById(id int) (*domain.Tag, error) {
 }
 
 func (r tagRepository) Create(tag *domain.Tag) (*domain.Tag, error) {
-	err := r.db.Create(tag).Error
+	err := r.db.Create(&tag).Error
 	if err != nil {
 		return nil, err
 	}
