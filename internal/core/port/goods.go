@@ -14,6 +14,6 @@ type GoodsService interface {
 	GetGoodses() ([]domain.GoodsResponse, error)
 	GetGoodsById(int) (*domain.GoodsResponse, error)
 	CreateGoods(*domain.GoodsRequest) (*domain.GoodsResponse, error)
-	UpdateGoods(*domain.GoodsRequest) (*domain.GoodsResponse, error)
+	UpdateGoods(*domain.GoodsRequest, int) (*domain.GoodsResponse, error)
 	DeleteGoods(int) error
 }
