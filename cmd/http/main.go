@@ -95,7 +95,8 @@ func main() {
 
 	// Price
 	priceRepo := repository.NewPriceRepository(db)
-	// priceRepo.Delete(1)
+	priceService := service.NewPriceService(priceRepo)
+	_ = priceService
 
 	// Init router
 	router, err := handler.NewRouter(
