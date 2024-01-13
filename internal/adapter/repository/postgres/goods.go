@@ -15,7 +15,7 @@ func NewGoodsRepository(db *DB) *goodsRepository {
 func (r goodsRepository) GetAll() ([]domain.Goods, error) {
 	goodses := []domain.Goods{}
 
-	err := r.db.Preload("Tags").Find(&goodses).Error
+	err := r.db.Preload("Tags").Preload("Prices").Find(&goodses).Error
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func (r goodsRepository) GetAll() ([]domain.Goods, error) {
 func (r goodsRepository) GetById(id int) (*domain.Goods, error) {
 	goods := domain.Goods{}
 
-	err := r.db.Preload("Tags").First(&goods, id).Error
+	err := r.db.Preload("Tags").Preload("Prices").First(&goods, id).Error
 	if err != nil {
 		return nil, err
 	}
