@@ -34,35 +34,17 @@ func (r goodsRepository) GetById(id int) (*domain.Goods, error) {
 	return &goods, nil
 }
 
-func (r goodsRepository) Create(goods *domain.GoodsRequest) (*domain.Goods, error) {
-	tagDB := []*domain.Tag{}
-	for _, tagId := range goods.Tags {
-		tag := domain.Tag{}
-		err := r.db.First(&tag, tagId).Error
-		if err != nil {
-			return nil, err
-		}
-		tagDB = append(tagDB, &tag)
-	}
-
-	goodsCreate := domain.Goods{
-		GoodsName:   goods.GoodsName,
-		GoodsCode:   goods.GoodsCode,
-		GoodsAmount: goods.GoodsAmount,
-		GoodsCost:   goods.GoodsCost,
-		Tags:        tagDB,
-	}
-
-	err := r.db.Create(&goodsCreate).Error
+func (r goodsRepository) Create(goods *domain.Goods) (*domain.Goods, error) {
+	err := r.db.Create(&goods).Error
 	if err != nil {
 		return nil, err
 	}
 
-	return &goodsCreate, nil
+	return goods, nil
 }
 
-func (r goodsRepository) Update(goods *domain.GoodsRequest, id int) (*domain.Goods, error) {
-	goodsDB := domain.Goods{}
+func (r goodsRepository) Update(goods *domain.Goods, id int) (*domain.Goods, error) {
+	var goodsDB domain.Goods
 	err := r.db.Preload("Tags").First(&goodsDB, id).Error
 	if err != nil {
 		return nil, err
@@ -77,16 +59,10 @@ func (r goodsRepository) Update(goods *domain.GoodsRequest, id int) (*domain.Goo
 	if err != nil {
 		return nil, err
 	}
-	tagDB := []domain.Tag{}
-	for _, tagId := range goods.Tags {
-		tag := domain.Tag{}
-		err := r.db.First(&tag, tagId).Error
-		if err != nil {
-			return nil, err
-		}
-		tagDB = append(tagDB, tag)
+	err = r.db.Model(&goodsDB).Association("Tags").Append(goods.Tags)
+	if err != nil {
+		return nil, err
 	}
-	r.db.Model(&goodsDB).Association("Tags").Append(tagDB)
 
 	err = r.db.Save(&goodsDB).Error
 	if err != nil {
@@ -103,4 +79,17 @@ func (r goodsRepository) Delete(id int) error {
 	}
 
 	return nil
+}
+
+func (r goodsRepository) SearchTags(tags []int) ([]*domain.Tag, error) {
+	tagDomain := []*domain.Tag{}
+	for _, tagId := range tags {
+		tag := domain.Tag{}
+		err := r.db.First(&tag, tagId).Error
+		if err != nil {
+			return nil, err
+		}
+		tagDomain = append(tagDomain, &tag)
+	}
+	return tagDomain, nil
 }

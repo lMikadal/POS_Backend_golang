@@ -40,7 +40,20 @@ func (s goodsService) GetGoodsById(id int) (*domain.GoodsResponse, error) {
 }
 
 func (s goodsService) CreateGoods(goods *domain.GoodsRequest) (*domain.GoodsResponse, error) {
-	goodsCreate, err := s.repo.Create(goods)
+	tags, err := s.repo.SearchTags(goods.Tags)
+	if err != nil {
+		return nil, err
+	}
+
+	goodsDomain := domain.Goods{
+		GoodsName:   goods.GoodsName,
+		GoodsCode:   goods.GoodsCode,
+		GoodsAmount: goods.GoodsAmount,
+		GoodsCost:   goods.GoodsCost,
+		Tags:        tags,
+	}
+
+	goodsCreate, err := s.repo.Create(&goodsDomain)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +64,20 @@ func (s goodsService) CreateGoods(goods *domain.GoodsRequest) (*domain.GoodsResp
 }
 
 func (s goodsService) UpdateGoods(goods *domain.GoodsRequest, id int) (*domain.GoodsResponse, error) {
-	goodsUpdate, err := s.repo.Update(goods, id)
+	tags, err := s.repo.SearchTags(goods.Tags)
+	if err != nil {
+		return nil, err
+	}
+
+	goodsDomain := domain.Goods{
+		GoodsName:   goods.GoodsName,
+		GoodsCode:   goods.GoodsCode,
+		GoodsAmount: goods.GoodsAmount,
+		GoodsCost:   goods.GoodsCost,
+		Tags:        tags,
+	}
+
+	goodsUpdate, err := s.repo.Update(&goodsDomain, id)
 	if err != nil {
 		return nil, err
 	}
