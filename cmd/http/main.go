@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"os"
 
@@ -91,20 +90,14 @@ func main() {
 	// Goods
 	goodsRepo := repository.NewGoodsRepository(db)
 	goodsService := service.NewGoodsService(goodsRepo)
-	fmt.Println(goodsService.GetGoodsById(3))
-	// fmt.Println(goodsService.CreateGoods(&domain.GoodsRequest{
-	// 	GoodsName:   "sertestname",
-	// 	GoodsCode:   "sertestcode",
-	// 	GoodsAmount: 111,
-	// 	GoodsCost:   111.11,
-	// 	Tags:        []int{4, 5},
-	// }))
+	goodsHandler := handler.NewGoodsHandler(goodsService)
 
 	// Init router
 	router, err := handler.NewRouter(
 		*roleHander,
 		*userHandler,
 		*tagHandler,
+		*goodsHandler,
 	)
 	if err != nil {
 		slog.Error("Error initializing router", "error", err)

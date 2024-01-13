@@ -17,6 +17,7 @@ func NewRouter(
 	roleHander RoleHandler,
 	userHandler UserHandler,
 	tagHandler TagHandler,
+	goodsHandler GoodsHandler,
 ) (*Router, error) {
 	// Disable debug mode and write logs to file in production
 	env := os.Getenv("APP_ENV")
@@ -48,6 +49,14 @@ func NewRouter(
 			tag.POST("/", tagHandler.CreateTag)
 			tag.PUT("/:id", tagHandler.UpdateTag)
 			tag.DELETE("/:id", tagHandler.DeleteTag)
+		}
+		goods := v1.Group("/goodses")
+		{
+			goods.GET("/", goodsHandler.GetGoodses)
+			goods.GET("/:id", goodsHandler.GetGoodsById)
+			goods.POST("/", goodsHandler.CreateGoods)
+			goods.PUT("/:id", goodsHandler.UpdateGoods)
+			goods.DELETE("/:id", goodsHandler.DeleteGoods)
 		}
 	}
 
