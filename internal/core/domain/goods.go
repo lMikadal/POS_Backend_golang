@@ -9,6 +9,7 @@ type Goods struct {
 	GoodsAmount int
 	GoodsCost   float32 `gorm:"type:decimal(10,2)"`
 	Tags        []*Tag  `gorm:"many2many:goods_tags;"`
+	Prices      []Price
 }
 
 type GoodsRequest struct {
@@ -26,6 +27,7 @@ type GoodsResponse struct {
 	GoodsAmount int                       `json:"amount"`
 	GoodsCost   float32                   `json:"cost" gorm:"type:decimal(10,2)"`
 	Tags        []TagResponseWithOutGoods `json:"tags"`
+	Prices      []PriceResponse           `json:"prices"`
 }
 
 type GoodsResponseWithOutTag struct {
