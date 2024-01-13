@@ -18,6 +18,7 @@ func NewRouter(
 	userHandler UserHandler,
 	tagHandler TagHandler,
 	goodsHandler GoodsHandler,
+	priceHandler PriceHandler,
 ) (*Router, error) {
 	// Disable debug mode and write logs to file in production
 	env := os.Getenv("APP_ENV")
@@ -57,6 +58,12 @@ func NewRouter(
 			goods.POST("/", goodsHandler.CreateGoods)
 			goods.PUT("/:id", goodsHandler.UpdateGoods)
 			goods.DELETE("/:id", goodsHandler.DeleteGoods)
+		}
+		price := v1.Group("/price")
+		{
+			price.POST("/", priceHandler.CreatePrice)
+			price.PUT("/:id", priceHandler.UpdatePrice)
+			price.DELETE("/:id", priceHandler.DeletePrice)
 		}
 	}
 

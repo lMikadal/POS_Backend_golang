@@ -13,22 +13,46 @@ func NewPriceService(repo port.PriceRepository) *priceService {
 	return &priceService{repo}
 }
 
-func (s priceService) CreatePrice(price *domain.Price) (*domain.Price, error) {
-	priceCreate, err := s.repo.Create(price)
+func (s priceService) CreatePrice(price *domain.PriceRequest) (*domain.PriceResponse, error) {
+	priceDB := &domain.Price{
+		PriceAmount: price.PriceAmount,
+		PricePrice:  price.PricePrice,
+		GoodsID:     price.GoodsID,
+	}
+
+	priceCreate, err := s.repo.Create(priceDB)
 	if err != nil {
 		return nil, err
 	}
 
-	return priceCreate, nil
+	priceResponse := &domain.PriceResponse{
+		PriceID:     priceCreate.ID,
+		PriceAmount: priceCreate.PriceAmount,
+		PricePrice:  priceCreate.PricePrice,
+	}
+
+	return priceResponse, nil
 }
 
-func (s priceService) UpdatePrice(price *domain.Price, id int) (*domain.Price, error) {
-	priceUpdate, err := s.repo.Update(price, id)
+func (s priceService) UpdatePrice(price *domain.PriceRequest, id int) (*domain.PriceResponse, error) {
+	priceDB := &domain.Price{
+		PriceAmount: price.PriceAmount,
+		PricePrice:  price.PricePrice,
+		GoodsID:     price.GoodsID,
+	}
+
+	priceUpdate, err := s.repo.Update(priceDB, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return priceUpdate, nil
+	priceResponse := &domain.PriceResponse{
+		PriceID:     priceUpdate.ID,
+		PriceAmount: priceUpdate.PriceAmount,
+		PricePrice:  priceUpdate.PricePrice,
+	}
+
+	return priceResponse, nil
 }
 
 func (s priceService) DeletePrice(id int) error {

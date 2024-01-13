@@ -9,7 +9,7 @@ type PriceRepository interface {
 }
 
 type PriceService interface {
-	CreatePrice(*domain.Price) (*domain.Price, error)
-	UpdatePrice(*domain.Price, int) (*domain.Price, error)
+	CreatePrice(*domain.PriceRequest) (*domain.PriceResponse, error)
+	UpdatePrice(*domain.PriceRequest, int) (*domain.PriceResponse, error)
 	DeletePrice(int) error
 }

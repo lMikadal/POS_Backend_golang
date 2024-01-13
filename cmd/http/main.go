@@ -96,7 +96,7 @@ func main() {
 	// Price
 	priceRepo := repository.NewPriceRepository(db)
 	priceService := service.NewPriceService(priceRepo)
-	_ = priceService
+	priceHandler := handler.NewPriceHandler(priceService)
 
 	// Init router
 	router, err := handler.NewRouter(
@@ -104,6 +104,7 @@ func main() {
 		*userHandler,
 		*tagHandler,
 		*goodsHandler,
+		*priceHandler,
 	)
 	if err != nil {
 		slog.Error("Error initializing router", "error", err)
