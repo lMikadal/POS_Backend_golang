@@ -48,8 +48,10 @@ func (s goodsService) CreateGoods(goods *domain.GoodsRequest) (*domain.GoodsResp
 	goodsDomain := domain.Goods{
 		GoodsName:   goods.GoodsName,
 		GoodsCode:   goods.GoodsCode,
+		GoodsImage:  goods.GoodsImage,
 		GoodsAmount: goods.GoodsAmount,
 		GoodsCost:   goods.GoodsCost,
+		GoodsPrice:  goods.GoodsPrice,
 		Tags:        tags,
 	}
 
@@ -72,8 +74,10 @@ func (s goodsService) UpdateGoods(goods *domain.GoodsRequest, id int) (*domain.G
 	goodsDomain := domain.Goods{
 		GoodsName:   goods.GoodsName,
 		GoodsCode:   goods.GoodsCode,
+		GoodsImage:  goods.GoodsImage,
 		GoodsAmount: goods.GoodsAmount,
 		GoodsCost:   goods.GoodsCost,
+		GoodsPrice:  goods.GoodsPrice,
 		Tags:        tags,
 	}
 

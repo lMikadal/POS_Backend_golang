@@ -61,7 +61,6 @@ func main() {
 		&domain.User{},
 		&domain.Tag{},
 		&domain.Goods{},
-		&domain.Price{},
 	}
 
 	if err = db.AutoMigrate(migrate...); err == nil && db.Migrator().HasTable(&domain.Role{}) {
@@ -93,18 +92,12 @@ func main() {
 	goodsService := service.NewGoodsService(goodsRepo)
 	goodsHandler := handler.NewGoodsHandler(goodsService)
 
-	// Price
-	priceRepo := repository.NewPriceRepository(db)
-	priceService := service.NewPriceService(priceRepo)
-	priceHandler := handler.NewPriceHandler(priceService)
-
 	// Init router
 	router, err := handler.NewRouter(
 		*roleHander,
 		*userHandler,
 		*tagHandler,
 		*goodsHandler,
-		*priceHandler,
 	)
 	if err != nil {
 		slog.Error("Error initializing router", "error", err)

@@ -11,24 +11,16 @@ func ConverGoodsToGoodsResponse(goods *domain.Goods) domain.GoodsResponse {
 		}
 		tags = append(tags, tag)
 	}
-	var prices []domain.PriceResponse
-	for _, price := range goods.Prices {
-		price := domain.PriceResponse{
-			PriceID:     price.ID,
-			PriceAmount: price.PriceAmount,
-			PricePrice:  price.PricePrice,
-		}
-		prices = append(prices, price)
-	}
 
 	goodsResponse := domain.GoodsResponse{
 		GoodsID:     goods.ID,
 		GoodsName:   goods.GoodsName,
 		GoodsCode:   goods.GoodsCode,
+		GoodsImage:  goods.GoodsImage,
 		GoodsAmount: goods.GoodsAmount,
 		GoodsCost:   goods.GoodsCost,
+		GoodsPrice:  goods.GoodsPrice,
 		Tags:        tags,
-		Prices:      prices,
 	}
 
 	return goodsResponse
